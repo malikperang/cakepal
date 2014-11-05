@@ -1,1 +1,1 @@
-CakePHP Paypal Plugin
+<h1>CakePHP Paypal Plugin</h1>
