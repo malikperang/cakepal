@@ -1,26 +1,31 @@
 <?php
-/*
- *
- *
+/* Paypal Express Chekout Plugin v1.0
+ * Script by 	: Malik Perang
+ * Contact me 	: malikperang@gmail.com
+ * Github		: @malikperang
+ * Twitter		: @malikperang
  */
-include_once('Config.php');
-include_once('Core.php');
-
-class CakePalException extends CakeException{}
-	
 
 class CakePal {
 
-	private $ppconf;
+	//create config
+	private $PayPalMode 			= 'sandbox'; // sandbox or live
+	private $PayPalApiUsername 		= 'malikp_api1.gmail.com'; //PayPal API Username
+	private $PayPalApiPassword 		= 'K7V4FCKQLHAGMK9K'; //Paypal API password
+	private $PayPalApiSignature 	= 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-ArSXZfAdR7eZYEqEDQsFq3Z5LW31'; //Paypal API Signature
+	private $PayPalCurrencyCode 	= 'USD'; //Paypal Currency Code
+	private $PayPalReturnURL 		= 'http://localhost/CakeLearning/cakernd/posts/pp_success/'; //Point to process.php page
+	private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/'; //Cancel URL if user clicks cancel
 
-	function __construct(){
-		$this->ppconf = new Config(); 
+	public function beforeFilter(){
+		$this->Auth->allow('setExpressCheckout');
 	}
 
+	
 	public function testsetExpressCheckout($ppdata){
 		//create config
-		$paypalmode = ($this->ppconf->PayPalMode=='sandbox') ?	 '.sandbox' : '';
-		//debug($this->ppconf->PayPalMode);
+		$paypalmode = ($this->PayPalMode=='sandbox') ?	 '.sandbox' : '';
+		//debug($this->PayPalMode);
 
 		//exit(1);
 
@@ -31,43 +36,42 @@ class CakePal {
 					foreach($item as $items):
 
 								#if tax enable
-								if(isset($ppdata['tax'])):
-									$tax = $ppdata['tax'];
-									//CakeSession::write('tax',$tax);
-								else:
+								if(isset($ppdata['tax'])){
+									$tax = $ppdata['tax'];									
+								}else{
 									$tax = null;
-								endif;
+								}
 
 								#if shipping enable
-								if(isset($ppdata['shipcost'])):
+								if(isset($ppdata['shipcost'])){
 									$shipcost = $ppdata['shipcost'];
-								else:
+								}else{
 									$shipcost = null;
-								endif;
+								}
+								
 
 								#if ship discount enable
-								if(isset($ppdata['shipdiscount'])):
+								if(isset($ppdata['shipdiscount'])){
 									$shipdiscount = $ppdata['shipdiscount'];
-									CakeSession::write('shipdiscount',$shipdiscount);
-								else:
+								}else{
 									$shipdiscount = null;
-								endif; 
+								}
 
 								#if handling cost enable
-								if(isset($ppdata['handlingcost'])):
+								if(isset($ppdata['handlingcost'])){
 									$handlingcost = $ppdata['handlingcost'];
-									CakeSession::write('handlingcost',$handlingcost);
-								else:
+								}else{
 									$handlingcost = null;
-								endif;
+								}
+								
 
 								#if insurance cost enable
-								if(isset($ppdata['insurancecost'])):
+								if(isset($ppdata['insurancecost'])){
 									$insurancecost  = $ppdata['insurancecost'];
-									CakeSession::write('insurancecost',$insurancecost);
-								else:
+								}else{
 									$insurancecost = null;
-								endif;
+								}
+								
 
 
 								
@@ -80,8 +84,8 @@ class CakePal {
 								//echo $grandTotal . '<br />';
 
 								$ppdata = "&METHOD=SetExpressCheckout".
-										  "&RETURNURL=".urlencode($this->ppconf->PayPalReturnURL).
-										  "&CANCELURL=".urlencode($this->ppconf->PayPalCancelURL).
+										  "&RETURNURL=".urlencode($this->PayPalReturnURL).
+										  "&CANCELURL=".urlencode($this->PayPalCancelURL).
 										  "&PAYMENTREQUEST_0_PAYMENTACTION=".urlencode("SALE").
 				
 										  "&L_PAYMENTREQUEST_0_NAME0=".urlencode($items['name']).
@@ -97,7 +101,7 @@ class CakePal {
 										  "&PAYMENTREQUEST_0_HANDLINGAMT=".urlencode($handlingcost).
 										  "&PAYMENTREQUEST_0_INSURANCEAMT=".urlencode($insurancecost).					  				
 						  				  "&PAYMENTREQUEST_0_AMT=".urlencode($grandtotal).
-										  "&PAYMENTREQUEST_0_CURRENCYCODE=".urlencode($this->ppconf->PayPalCurrencyCode).
+										  "&PAYMENTREQUEST_0_CURRENCYCODE=".urlencode($this->PayPalCurrencyCode).
 										  "&LOCALECODE=GB". #PayPal pages to match the language on your website.
 										  "&LOGOIMG=http://intllab.com/v6cake/theme/V6/img/images/logov2longB.png". #site logo
 										  "&CARTBORDERCOLOR=FFFFFF". #border color of cart
@@ -125,8 +129,8 @@ class CakePal {
 								
 								#begin api contact,execute httpPost
 										
-								$paypal = new Core();
-								$httpParsedResponseAr = $paypal->httpPost('SetExpressCheckout', $ppdata, $this->ppconf->PayPalApiUsername, $this->ppconf->PayPalApiPassword, $this->ppconf->PayPalApiSignature, $this->ppconf->PayPalMode);
+								
+								$httpParsedResponseAr = $this->httpPost('SetExpressCheckout', $ppdata, $this->PayPalApiUsername, $this->PayPalApiPassword, $this->PayPalApiSignature, $this->PayPalMode);
 		
 								//Respond according to message we receive from Paypal
 								if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
@@ -134,8 +138,7 @@ class CakePal {
 
 										//Redirect user to PayPal store with Token received.
 									 	$paypalurl ='https://www'.$paypalmode.'.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='.$httpParsedResponseAr["TOKEN"].'';
-										header('Location:'.$paypalurl);
-										
+										header('Location:'.$paypalurl);				
 										exit;
 										
 									 
@@ -159,7 +162,6 @@ class CakePal {
 	}
 
 	public function testdoExpressCheckoutPayment($credential){
-		$this->ppconf = new Config();
 		debug($credential);
 		$sessionData = CakeSession::read('SessionData');
 		//debug($tax['tax']);
@@ -182,39 +184,42 @@ class CakePal {
 					'&PAYMENTREQUEST_0_SHIPDISCAMT='.urlencode($sessionData['shipdiscount']).
 					'&PAYMENTREQUEST_0_INSURANCEAMT='.urlencode($sessionData['insurancecost']).
 					'&PAYMENTREQUEST_0_AMT='.urlencode($sessionData['grandtotal']).
-					'&PAYMENTREQUEST_0_CURRENCYCODE='.urlencode($this->ppconf->PayPalCurrencyCode);
+					'&PAYMENTREQUEST_0_CURRENCYCODE='.urlencode($this->PayPalCurrencyCode);
 
-		$paypal= new Core();
-		$httpParsedResponseAr = $paypal->httpPost('DoExpressCheckoutPayment', $ppdata, $this->ppconf->PayPalApiUsername, $this->ppconf->PayPalApiPassword, $this->ppconf->PayPalApiSignature, $this->ppconf->PayPalMode);
+		
+		$httpParsedResponseAr = $this->httpPost('DoExpressCheckoutPayment', $ppdata, $this->PayPalApiUsername, $this->PayPalApiPassword, $this->PayPalApiSignature, $this->PayPalMode);
 		
 		//Check if everything went ok..
 		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 		{
+			   
+			   CakeSession::write('ExpressCheckOutDetails',$httpParsedResponseAr);
+			   return true;
 
-			echo '<h2>Success</h2>';
-			echo 'Your Transaction ID : '.urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
+			//echo '<h2>Success</h2>';
+			//echo 'Your Transaction ID : '.urldecode($httpParsedResponseAr["PAYMENTINFO_0_TRANSACTIONID"]);
 		/*
 				//Sometimes Payment are kept pending even when transaction is complete. 
 				//hence we need to notify user about it and ask him manually approve the transiction
 				*/
 				
-				if('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"])
-				{
-					echo '<div style="color:green">Payment Received! Your product will be sent to you very soon!</div>';
+				/*if('Completed' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"])
+				{	
+					CakeSession::write('httpParsedResponseAr',$httpParsedResponseAr);
+					//echo '<div style="color:green">Payment Received! Your product will be sent to you very soon!</div>';
+					return true;
+					//exit;
 				}
 				elseif('Pending' == $httpParsedResponseAr["PAYMENTINFO_0_PAYMENTSTATUS"])
 				{
 					echo '<div style="color:red">Transaction Complete, but payment is still pending! '.
 					'You need to manually authorize this payment in your <a target="_new" href="http://www.paypal.com">Paypal Account</a></div>';
-				}
+				}*/
 
 				// we can retrive transection details using either GetTransactionDetails or GetExpressCheckoutDetails
 				// GetTransactionDetails requires a Transaction ID, and GetExpressCheckoutDetails requires Token returned by SetExpressCheckOut
-				$ppdata = 	'&TOKEN='.urlencode($credential['token']);
-				$paypal= new Core();
-				$httpParsedResponseAr = $paypal->httpPost('GetExpressCheckoutDetails', $ppdata, $this->ppconf->PayPalApiUsername, $this->ppconf->PayPalApiPassword, $this->ppconf->PayPalApiSignature, $this->ppconf->PayPalMode);
-
-				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
+				
+				/*if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 				{
 					
 					echo '<br /><b>Stuff to store in database :</b><br /><pre>';
@@ -243,7 +248,6 @@ class CakePal {
 						die('Error : ('. $mysqli->errno .') '. $mysqli->error);
 					}
 					
-					*/
 					
 					echo '<pre>';
 					print_r($httpParsedResponseAr);
@@ -254,7 +258,7 @@ class CakePal {
 					print_r($httpParsedResponseAr);
 					echo '</pre>';
 
-				}
+				}*/
 
 			}
 
@@ -263,16 +267,25 @@ class CakePal {
 				echo '<pre>';
 				print_r($httpParsedResponseAr);
 				echo '</pre>';
+		}
 	}
+
+	public function testgetExpressCheckoutDetails($excdetail){
+			debug($excdetail);
+			if($excdetail[''])
+			exit(1);
+			//$ppdata = '&TOKEN='.urlencode($credential['token']);
+			
+			//$httpParsedResponseAr = $paypal->httpPost('GetExpressCheckoutDetails', $ppdata, $this->PayPalApiUsername, $this->PayPalApiPassword, $this->PayPalApiSignature, $this->PayPalMode);
+
+			//	if("SUCCESS" == )
 	}
 
 	###########################################################################################################
 
 	public function setExpressCheckout($ppdata){
-
-		$this->ppconf = new Config(); //create config
-		$paypalmode = ($this->ppconf->PayPalMode=='sandbox') ?	 '.sandbox' : '';
-		//debug($this->ppconf->PayPalMode);
+		$paypalmode = ($this->PayPalMode=='sandbox') ?	 '.sandbox' : '';
+		//debug($this->PayPalMode);
 
 		//exit(1);
 
@@ -325,8 +338,8 @@ class CakePal {
 								//echo $grandTotal . '<br />';
 
 								$ppdata = "&METHOD=SetExpressCheckout".
-										  "&RETURNURL=".urlencode($this->ppconf->PayPalReturnURL).
-										  "&CANCELURL=".urlencode($this->ppconf->PayPalCancelURL).
+										  "&RETURNURL=".urlencode($this->PayPalReturnURL).
+										  "&CANCELURL=".urlencode($this->PayPalCancelURL).
 										  "&PAYMENTREQUEST_0_PAYMENTACTION=".urlencode("SALE").
 				
 										  "&L_PAYMENTREQUEST_0_NAME0=".urlencode($items['name']).
@@ -342,7 +355,7 @@ class CakePal {
 										  "&PAYMENTREQUEST_0_HANDLINGAMT=".urlencode($handlingcost).
 										  "&PAYMENTREQUEST_0_INSURANCEAMT=".urlencode($insurancecost).					  				
 						  				  "&PAYMENTREQUEST_0_AMT=".urlencode($grandTotal).
-										  "&PAYMENTREQUEST_0_CURRENCYCODE=".urlencode($this->ppconf->PayPalCurrencyCode).
+										  "&PAYMENTREQUEST_0_CURRENCYCODE=".urlencode($this->PayPalCurrencyCode).
 										  "&LOCALECODE=GB". #PayPal pages to match the language on your website.
 										  "&LOGOIMG=http://intllab.com/v6cake/theme/V6/img/images/logov2longB.png". #site logo
 										  "&CARTBORDERCOLOR=FFFFFF". #border color of cart
@@ -355,8 +368,8 @@ class CakePal {
 								
 								#begin api contact,execute httpPost
 										
-								$paypal = new Core();
-								$httpParsedResponseAr = $paypal->httpPost('SetExpressCheckout', $ppdata, $this->ppconf->PayPalApiUsername, $this->ppconf->PayPalApiPassword, $this->ppconf->PayPalApiSignature, $this->ppconf->PayPalMode);
+								
+								$httpParsedResponseAr = $this->httpPost('SetExpressCheckout', $ppdata, $this->PayPalApiUsername, $this->PayPalApiPassword, $this->PayPalApiSignature, $this->PayPalMode);
 		
 								//Respond according to message we receive from Paypal
 								if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
@@ -390,6 +403,61 @@ class CakePal {
 
 	public function doExpressCheckoutPayment($returnData,$sessionData){
 		debug($returndata);
+	}
+
+
+	function httpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode) {
+			// Set up your API credentials, PayPal end point, and API version.
+			$API_UserName = urlencode($this->PayPalApiUsername);
+			$API_Password = urlencode($this->PayPalApiPassword);
+			$API_Signature = urlencode($this->PayPalApiSignature);
+			
+			$paypalmode = ($this->PayPalMode =='sandbox') ? '.sandbox' : '';
+	
+			$API_Endpoint = "https://api-3t".$paypalmode.".paypal.com/nvp";
+			$version = urlencode('109.0');
+		
+			// Set the curl parameters.
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+			curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		
+			// Turn off the server and peer verification (TrustManager Concept).
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+		
+			// Set the API operation, version, and API signature in the request.
+			$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+		
+			// Set the request as a POST FIELD for curl.
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+		
+			// Get response from the server.
+			$httpResponse = curl_exec($ch);
+		
+			if(!$httpResponse) {
+				exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+			}
+		
+			// Extract the response details.
+			$httpResponseAr = explode("&", $httpResponse);
+		
+			$httpParsedResponseAr = array();
+			foreach ($httpResponseAr as $i => $value) {
+				$tmpAr = explode("=", $value);
+				if(sizeof($tmpAr) > 1) {
+					$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+				}
+			}
+		
+			if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
+				exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+			}
+		
+		return $httpParsedResponseAr;
 	}
 }
 
