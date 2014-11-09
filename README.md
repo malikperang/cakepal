@@ -1,4 +1,4 @@
-<h1>CakePHP Paypal Plugin for cakephp 2.x</h1>
+<h1>CakePal CakePHP Paypal Plugin</h1>
 
 Tested on:
 CakePHP version 2.4 >=. 
