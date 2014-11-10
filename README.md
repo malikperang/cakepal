@@ -98,7 +98,7 @@ Method applied:
 3.GetExpressCheckout
 
 <h3>SetExpressCheckout</h3>
-
+<br />
 
 1. Create book form in your Books/view.ctp with this code
 <code>
