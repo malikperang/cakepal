@@ -21,7 +21,7 @@ create onetime configuration of your paypal at CakePal/Lib/CakePal.php
 /* 
  * Create your onetime paypal api config,
  */
-
+<br />
 /*
  *set your paypal api mode sandbox/live
  */
@@ -164,14 +164,21 @@ Create <code>pp_return</code> function in your <code>BooksController.php</code>
 	}
 </code>
 
-<h1>DoExpressCheckout</h1>
+<h3>DoExpressCheckout</h3>
+We use <code>$this->params['url'] to get paypal return token</code>
+add this code in your pp_return function.
+<code>
+	
+	function pp_return(){
 
-
-
-
-
-
-
+		if($this->request->is('get')){
+			$doExpressCheckout = $this->CakePal->doExpressCheckoutPayment($this->params['url']);
+			if($doExpressCheckout == TRUE){
+				debug($doExpressCheckout); //here the return result
+			}
+		}
+	}
+</code>
 
 
 
