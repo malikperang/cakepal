@@ -10,21 +10,36 @@
 class CakePal {
 
 /* 
- *Create your onetime paypal api config,
+ * Create your onetime paypal api config,
  */
-#set your paypal api mode sandbox/live
+
+/*
+ *set your paypal api mode sandbox/live
+ */
 private $PayPalMode 			= 'sandbox'; 
-#set your paypal api username
+/*
+ *set your paypal api username
+ */
 private $PayPalApiUsername 		= 'malikp_api1.gmail.com';
-#set your paypal api password
+/*
+ *set your paypal api password
+ */
 private $PayPalApiPassword 		= 'K7V4FCKQLHAGMK9K';
-#set your paypal api signature
+/*
+ *set your paypal api signature
+ */
 private $PayPalApiSignature 	= 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-ArSXZfAdR7eZYEqEDQsFq3Z5LW31';
-#set your paypal currency code
+/*
+ *set your paypal currency code
+ */
 private $PayPalCurrencyCode 	= 'USD';
-#set your paypal return URL
+/*
+ *set your paypal return URL
+ */
 private $PayPalReturnURL 		= 'http://localhost/CakeLearning/cakernd/posts/pp_success/'; 
-#set your paypal cancel URL
+/*
+ *set your paypal cancel URL
+ */
 private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/'; 
 
 public function beforeFilter(){
