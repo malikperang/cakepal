@@ -19,43 +19,73 @@ and include CakePal library in at the top of your controller:
 create onetime configuration of your paypal at CakePal/Lib/CakePal.php
 <code>
 /* 
- *Create your onetime paypal api config for instance uses.
+ * Create your onetime paypal api config,
  */
-#set your paypal api mode sandbox/live
-private $PayPalMode 			= 'sandbox or live'; 
-#set your paypal api username
-private $PayPalApiUsername 		= 'your api username';
-#set your paypal api password
-private $PayPalApiPassword 		= 'your api key';
-#set your paypal api signature
-private $PayPalApiSignature 	= 'your api signature';
-#set your paypal currency code
-private $PayPalCurrencyCode 	= 'your currency';
-#set your paypal return URL
-private $PayPalReturnURL 		= 'after payment return URL.example : '; 
-#set your paypal cancel URL
-private $PayPalCancelURL 		= 'after payment cancel URL.example :'; 
+
+/*
+ *set your paypal api mode sandbox/live
+ */
+private $PayPalMode 			= 'sandbox/live'; 
+/*
+ *set your paypal api username
+ */
+private $PayPalApiUsername 		= 'yourapiusername';
+/*
+ *set your paypal api password
+ */
+private $PayPalApiPassword 		= 'yourapikey';
+/*
+ *set your paypal api signature
+ */
+private $PayPalApiSignature 	= 'yourapisignature';
+/*
+ *set your paypal currency code
+ */
+private $PayPalCurrencyCode 	= 'yourapicurrency';
+/*
+ *set your paypal return URL
+ */
+private $PayPalReturnURL 		= returnurl'; 
+/*
+ *set your paypal cancel URL
+ */
+private $PayPalCancelURL 		= 'cancelurl'; 
 </code>
 
 Example configuration:
 <code>
 /* 
- *Create your onetime paypal api config for instance uses.
+ * Create your onetime paypal api config,
  */
-#set your paypal api mode sandbox/live
+
+/*
+ *set your paypal api mode sandbox/live
+ */
 private $PayPalMode 			= 'sandbox'; 
-#set your paypal api username
+/*
+ *set your paypal api username
+ */
 private $PayPalApiUsername 		= 'malikp_api1.gmail.com';
-#set your paypal api password
+/*
+ *set your paypal api password
+ */
 private $PayPalApiPassword 		= 'K7V4FCKQLHAGMK9K';
-#set your paypal api signature
+/*
+ *set your paypal api signature
+ */
 private $PayPalApiSignature 	= 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-ArSXZfAdR7eZYEqEDQsFq3Z5LW31';
-#set your paypal currency code
+/*
+ *set your paypal currency code
+ */
 private $PayPalCurrencyCode 	= 'USD';
-#set your paypal return URL
-private $PayPalReturnURL 		= 'http://localhost/mycakeapp/books/pp_return'; 
-#set your paypal cancel URL
-private $PayPalCancelURL 		= 'http://localhost/mycakeapp/books/pp_cancel'; 
+/*
+ *set your paypal return URL
+ */
+private $PayPalReturnURL 		= 'http://localhost/CakeLearning/cakernd/posts/pp_success/'; 
+/*
+ *set your paypal cancel URL
+ */
+private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/'; 
 </code>
 
 <h1>Basic Usage Tutorial</h1>
@@ -123,7 +153,7 @@ Create <code>pp_return</code> function in your <code>BooksController.php</code>
 <code>
 
 	function pp_return(){
-		
+
 		//let say you want to execute DoExpressCheckout method here,
 		if($this->request->is('get')){
 			$this->CakePal->doExpressCheckoutPayment($this->params['url']);
