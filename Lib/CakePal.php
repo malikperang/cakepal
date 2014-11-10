@@ -37,40 +37,40 @@ public function setExpressCheckout($ppdata){
 		CakeSession::delete('SessionData');
 		foreach ($ppdata['items'] as $n => $item) {
 			foreach($item as $items){
-						#if tax enable
-						if(isset($ppdata['tax'])){
-							$tax = $ppdata['tax'];									
-						}else{
-							$tax = null;
-						}
+				#if tax enable
+				if(isset($ppdata['tax'])){
+					$tax = $ppdata['tax'];									
+				}else{
+					$tax = null;
+				}
 
-						#if shipping enable
-						if(isset($ppdata['shipcost'])){
-							$shipcost = $ppdata['shipcost'];
-						}else{
-							$shipcost = null;
-						}
-						
-						#if ship discount enable
-						if(isset($ppdata['shipdiscount'])){
-							$shipdiscount = $ppdata['shipdiscount'];
-						}else{
-							$shipdiscount = null;
-						}
+				#if shipping enable
+				if(isset($ppdata['shipcost'])){
+					$shipcost = $ppdata['shipcost'];
+				}else{
+					$shipcost = null;
+				}
+				
+				#if ship discount enable
+				if(isset($ppdata['shipdiscount'])){
+					$shipdiscount = $ppdata['shipdiscount'];
+				}else{
+					$shipdiscount = null;
+				}
 
-						#if handling cost enable
-						if(isset($ppdata['handlingcost'])){
-							$handlingcost = $ppdata['handlingcost'];
-						}else{
-							$handlingcost = null;
-						}		
+				#if handling cost enable
+				if(isset($ppdata['handlingcost'])){
+					$handlingcost = $ppdata['handlingcost'];
+				}else{
+					$handlingcost = null;
+				}		
 
-						#if insurance cost enable
-						if(isset($ppdata['insurancecost'])){
-							$insurancecost  = $ppdata['insurancecost'];
-						}else{
-							$insurancecost = null;
-						}
+				#if insurance cost enable
+				if(isset($ppdata['insurancecost'])){
+					$insurancecost  = $ppdata['insurancecost'];
+				}else{
+					$insurancecost = null;
+				}
 
 						#if items quantity is more than 1
 						$totalprice = $items['price'] * $items['quantity'];
