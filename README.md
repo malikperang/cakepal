@@ -17,11 +17,11 @@ and include CakePal library in at the top of your controller:
 <code>App::uses('CakePal','CakePal.Lib');</code>
 
 create onetime configuration of your paypal at CakePal/Lib/CakePal.php
-<code>
+```
 /* 
  * Create your onetime paypal api config,
  */
-<br />
+
 /*
  *set your paypal api mode sandbox/live
  */
@@ -50,7 +50,7 @@ private $PayPalReturnURL 		= returnurl';
  *set your paypal cancel URL
  */
 private $PayPalCancelURL 		= 'cancelurl'; 
-</code>
+```
 
 Example configuration:
 <code>
