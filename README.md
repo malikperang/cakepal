@@ -142,7 +142,7 @@ You can also include:-
 -insurance cost
 
 by adding this option in your $order array like this:
-	```php
+```php
 	$order = array(
 			'tax'		  	=>10.00,
 			'handlingcost'	=>10.00,
@@ -157,7 +157,6 @@ by adding this option in your $order array like this:
 3.Suppose you had follow the paypal api config above,so your return url is 'http://localhost/mycakeapp/books/pp_return'.
 Create ```shell pp_return``` function in your ```shell BooksController.php```
 ```php
-
 	function pp_return(){
 
 		//let say you want to execute DoExpressCheckout method here,
@@ -182,6 +181,7 @@ Add this example code in your pp_return function.
 				debug($doExpressCheckout); //here the return result
 			}
 		}
+		
 	}
 ```
 
