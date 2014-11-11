@@ -44,6 +44,9 @@ public function setExpressCheckout($ppdata){
 	if(is_array($ppdata)){
 		CakeSession::delete('SessionData');
 		foreach ($ppdata['items'] as $n => $item) {
+			//remove any array comes with 
+			unset($ppdata['x']);
+			unset($ppdata['y']);
 			foreach($item as $items){
 				#if tax enable
 				if(isset($ppdata['tax'])){
