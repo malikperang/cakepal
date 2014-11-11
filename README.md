@@ -151,7 +151,7 @@ by adding this option in your $order array like this:
 			'insurancecost' =>10.00,
 			'items'			=>	array($this->request->data), //get data from the request data
 			);
-	```
+```
 
 
 3.Suppose you had follow the paypal api config above,so your return url is 'http://localhost/mycakeapp/books/pp_return'.
@@ -181,7 +181,7 @@ Add this example code in your pp_return function.
 				debug($doExpressCheckout); //here the return result
 			}
 		}
-		
+
 	}
 ```
 
