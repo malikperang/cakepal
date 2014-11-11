@@ -1,8 +1,17 @@
 <?php
+/** 
+*Paypal Express Checkout Plugin
+* Script by 	: Malik Perang
+* Contact me 	: malikperang@gmail.com
+* Github		: @malikperang
+* Twitter		: @malikperang
+* @version 1.0
+* @since 2014
+*/
 App::uses('Component', 'Controller');
 
 class CakePalComponent extends Component{
-	/* 
+/* 
  * Create your onetime paypal api config,
  */
 
