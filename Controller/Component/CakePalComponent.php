@@ -1,15 +1,8 @@
 <?php
-/* Paypal Express Chekout Plugin v1.0
-* Script by 	: Malik Perang
-* Contact me 	: malikperang@gmail.com
-* Github		: @malikperang
-* Twitter		: @malikperang
-* @since 2014
-*/
+App::uses('Component', 'Controller');
 
-class CakePal {
-
-/* 
+class CakePalComponent extends Component{
+	/* 
  * Create your onetime paypal api config,
  */
 
@@ -43,7 +36,7 @@ private $PayPalReturnURL 		= 'http://localhost/CakeLearning/cakernd/posts/pp_suc
 private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/'; 
 
 public function beforeFilter(){
-		$this->Auth->allow('setExpressCheckout');
+		//$this->Auth->allow('setExpressCheckout');
 }
 
 public function setExpressCheckout($ppdata){
@@ -249,7 +242,5 @@ function httpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword
 
 	return $httpParsedResponseAr;
 	}
+
 }
-
-?>
-
