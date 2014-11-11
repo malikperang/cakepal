@@ -105,7 +105,6 @@ Method applied:
 3.GetExpressCheckout
 
 <h3>SetExpressCheckout</h3>
-<br />
 
 1. Create book form in your Books/view.ctp with this code
 ```php
@@ -126,7 +125,7 @@ Method applied:
 ```php
 	if($this->request->is('post')){
 		$order = array(
-			'items'=>array($this->request->data), //get the data from the request data
+			'items'=>array($this->request->data), //get data from the request data
 			);
 		$this->CakePal->setExpressCheckout($order);
 
@@ -150,7 +149,7 @@ by adding this option in your $order array like this:
 			'shipcost'	  	=>10.00,
 			'shipdiscount'	=>-2.00,
 			'insurancecost' =>10.00,
-			'items'			=>	array($this->request->data), //get the data from the request data
+			'items'			=>	array($this->request->data), //get data from the request data
 			);
 	```
 
@@ -172,10 +171,9 @@ Create ```shell pp_return``` function in your ```shell BooksController.php```
 ```
 
 <h3>DoExpressCheckout</h3>
-We use ```$this->params['url']``` to get paypal return token
-add this code in your pp_return function.
-```
-	
+We use ```$this->params['url']``` to get paypal return token.
+Add this example code in your pp_return function.
+```php
 	function pp_return(){
 
 		if($this->request->is('get')){
