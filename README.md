@@ -22,7 +22,7 @@ and include CakePal library in at the top of your controller:
 App::uses('CakePal','CakePal.Lib');
 ```
 
-create onetime configuration of your paypal at CakePal/Lib/CakePal.php :
+create your paypal onetime configuration at CakePal/Lib/CakePal.php :
 
 ```php
 /* 
