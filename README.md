@@ -155,7 +155,9 @@ by adding this option in your $order array like this:
 
 
 3.Suppose you had follow the paypal api config above,so your return url is 'http://localhost/mycakeapp/books/pp_return'.
-Create ```shellpp_return``` function in your ```shellBooksController.php```
+Create ```shell
+pp_return``` function in your ```shell
+BooksController.php```
 ```php
 	function pp_return(){
 
