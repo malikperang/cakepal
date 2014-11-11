@@ -6,18 +6,22 @@ CakePHP version 2.4 >=.
 <h1>Install</h1>
 Clone CakePal repositories
 
-```$git clone git@github.com:malikperang/cakepal.git Plugin/CakePal```
+```shell
+$git clone git@github.com:malikperang/cakepal.git Plugin/CakePal
+```
 
 make sure to loaded CakePal plugin in your bootstrap.php:
 
-```CakePlugin::load('CakePal', array('routes' => false));```
+```php
+CakePlugin::load('CakePal', array('routes' => false));
+```
 
 and include CakePal library in at the top of your controller:
 
 ```App::uses('CakePal','CakePal.Lib');```
 
 create onetime configuration of your paypal at CakePal/Lib/CakePal.php
-```
+```php
 /* 
  * Create your onetime paypal api config,
  */
@@ -53,7 +57,7 @@ private $PayPalCancelURL 		= 'yourcancelurl';
 ```
 
 Example configuration:
-```
+```php
 /* 
  * Create your onetime paypal api config,
  */
@@ -101,7 +105,7 @@ Method applied:
 <br />
 
 1. Create book form in your Books/view.ctp with this code
-```
+```php
 	<?php 
 	//create book form
 	echo $this->Form->create('Book');
@@ -116,7 +120,7 @@ Method applied:
 ```
 
 2. Add this code in your BooksController.php:
-```
+```php
 	if($this->request->is('post')){
 		$order = array(
 			'items'=>array($this->request->data), //get the data from the request data
@@ -136,7 +140,7 @@ You can also include:-
 -insurance cost
 
 by adding this option in your $order array like this:
-	```
+	```php
 	$order = array(
 			'tax'		  	=>10.00,
 			'handlingcost'	=>10.00,
@@ -149,8 +153,8 @@ by adding this option in your $order array like this:
 
 
 3.Suppose you had follow the paypal api config above,so your return url is 'http://localhost/mycakeapp/books/pp_return'.
-Create ```pp_return``` function in your ```BooksController.php```
-```
+Create ```shell pp_return``` function in your ```shell BooksController.php```
+```php
 
 	function pp_return(){
 
