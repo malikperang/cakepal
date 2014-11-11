@@ -100,9 +100,9 @@ private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/';
 Case: You want to make your books/view/* controller have a paypal payment.
 
 Method applied:
-1.SetExpressCheckout
-2.DoExpressCheckout
-3.GetExpressCheckout
+1.SetExpressCheckout <br />
+2.DoExpressCheckout <br />
+3.GetExpressCheckout <br />
 
 <h3>SetExpressCheckout</h3>
 
