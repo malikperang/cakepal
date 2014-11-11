@@ -6,15 +6,15 @@ CakePHP version 2.4 >=.
 <h1>Install</h1>
 Clone CakePal repositories
 
-<code>$git clone git@github.com:malikperang/cakepal.git Plugin/CakePal</code>
+```$git clone git@github.com:malikperang/cakepal.git Plugin/CakePal```
 
 make sure to loaded CakePal plugin in your bootstrap.php:
 
-<code>CakePlugin::load('CakePal', array('routes' => false));</code>
+```CakePlugin::load('CakePal', array('routes' => false));```
 
 and include CakePal library in at the top of your controller:
 
-<code>App::uses('CakePal','CakePal.Lib');</code>
+```App::uses('CakePal','CakePal.Lib');```
 
 create onetime configuration of your paypal at CakePal/Lib/CakePal.php
 ```
@@ -45,15 +45,15 @@ private $PayPalCurrencyCode 	= 'yourapicurrency';
 /*
  *set your paypal return URL
  */
-private $PayPalReturnURL 		= returnurl'; 
+private $PayPalReturnURL 		= 'yourreturnurl'; 
 /*
  *set your paypal cancel URL
  */
-private $PayPalCancelURL 		= 'cancelurl'; 
+private $PayPalCancelURL 		= 'yourcancelurl'; 
 ```
 
 Example configuration:
-<code>
+```
 /* 
  * Create your onetime paypal api config,
  */
@@ -86,7 +86,7 @@ private $PayPalReturnURL 		= 'http://localhost/CakeLearning/cakernd/posts/pp_suc
  *set your paypal cancel URL
  */
 private $PayPalCancelURL 		= 'http://localhost/CakeLearning/cakernd/post/'; 
-</code>
+```
 
 <h1>Basic Usage Tutorial</h1>
 
@@ -101,7 +101,7 @@ Method applied:
 <br />
 
 1. Create book form in your Books/view.ctp with this code
-<code>
+```
 	<?php 
 	//create book form
 	echo $this->Form->create('Book');
@@ -113,10 +113,10 @@ Method applied:
 	echo $this->Form->submit('Paypal');
 	echo $this->Form->end();
 	?>
-</code>
+```
 
 2. Add this code in your BooksController.php:
-<code>
+```
 	if($this->request->is('post')){
 		$order = array(
 			'items'=>array($this->request->data), //get the data from the request data
@@ -124,7 +124,7 @@ Method applied:
 		$this->CakePal->setExpressCheckout($order);
 
 	}
-</code>
+```
 
 
 
@@ -136,7 +136,7 @@ You can also include:-
 -insurance cost
 
 by adding this option in your $order array like this:
-	<code>
+	```
 	$order = array(
 			'tax'		  	=>10.00,
 			'handlingcost'	=>10.00,
@@ -145,12 +145,12 @@ by adding this option in your $order array like this:
 			'insurancecost' =>10.00,
 			'items'			=>	array($this->request->data), //get the data from the request data
 			);
-	</code>
+	```
 
 
 3.Suppose you had follow the paypal api config above,so your return url is 'http://localhost/mycakeapp/books/pp_return'.
-Create <code>pp_return</code> function in your <code>BooksController.php</code>
-<code>
+Create ```pp_return``` function in your ```BooksController.php```
+```
 
 	function pp_return(){
 
@@ -162,12 +162,12 @@ Create <code>pp_return</code> function in your <code>BooksController.php</code>
 		//for more info about DoExpressCheckout method please continue scrolling.
 
 	}
-</code>
+```
 
 <h3>DoExpressCheckout</h3>
-We use <code>$this->params['url'] to get paypal return token</code>
+We use ```$this->params['url']``` to get paypal return token
 add this code in your pp_return function.
-<code>
+```
 	
 	function pp_return(){
 
@@ -178,7 +178,7 @@ add this code in your pp_return function.
 			}
 		}
 	}
-</code>
+```
 
 
 
