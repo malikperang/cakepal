@@ -18,9 +18,12 @@ CakePlugin::load('CakePal', array('routes' => false));
 
 and include CakePal library in at the top of your controller:
 
-```App::uses('CakePal','CakePal.Lib');```
+```php 
+App::uses('CakePal','CakePal.Lib');
+```
 
-create onetime configuration of your paypal at CakePal/Lib/CakePal.php
+create onetime configuration of your paypal at CakePal/Lib/CakePal.php :
+
 ```php
 /* 
  * Create your onetime paypal api config,
